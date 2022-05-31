@@ -1,0 +1,32 @@
+{
+  "@renku_data_type": "renku.domain_model.project.Project",
+  "@renku_oid": "project",
+  "agent_version": "1.2.4",
+  "annotations": [],
+  "automated_update": true,
+  "creator": {
+    "@renku_data_type": "renku.domain_model.provenance.agent.Person",
+    "@renku_data_value": {
+      "affiliation": null,
+      "alternate_name": null,
+      "email": "firat.ozdemir@sdsc.ethz.ch",
+      "id": "mailto:firat.ozdemir@sdsc.ethz.ch",
+      "name": "Firat özdemir"
+    }
+  },
+  "date_created": {
+    "@renku_data_type": "datetime.datetime",
+    "@renku_data_value": "2022-05-31T09:01:29+00:00"
+  },
+  "description": "Tools to load pretrained models and evaluate OADAT tasks",
+  "id": "/projects/firat.ozdemir/oadat-evaluate",
+  "immutable_template_files": [],
+  "keywords": [],
+  "name": "oadat-evaluate",
+  "template_id": "python-minimal",
+  "template_metadata": "{\"__template_source__\": \"https://github.com/SwissDataScienceCenter/renku-project-template\", \"__template_ref__\": \"0.3.3\", \"__template_id__\": \"python-minimal\", \"__namespace__\": \"firat.ozdemir\", \"__automated_update__\": true, \"__repository__\": \"https://renkulab.io/gitlab\", \"__sanitized_project_name__\": \"oadat-evaluate\", \"__project_slug__\": \"firat.ozdemir/oadat-evaluate\", \"__project_description__\": \"Tools to load pretrained models and evaluate OADAT tasks\", \"__renku_version__\": \"1.2.4\", \"name\": \"oadat-evaluate\", \"__name__\": \"oadat-evaluate\", \"__template_version__\": \"50d878ef5a6bc75e7b2e1643e41f8dbf1a889efb\"}",
+  "template_ref": "0.3.3",
+  "template_source": "https://github.com/SwissDataScienceCenter/renku-project-template",
+  "template_version": "50d878ef5a6bc75e7b2e1643e41f8dbf1a889efb",
+  "version": 9
+}
