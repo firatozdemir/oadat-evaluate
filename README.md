@@ -9,14 +9,16 @@ Namely, included tools allow to
 - train the presented models from scratch for each task
 - batch evaluate a given serialized model (pretrained or your own) on corresponding OADAT test set for all presented metrics.
   
-For more information on downloading datasets proposed within the scope of this work (MSFD, SWFD, SCD), check [github.com/berkanlafci/datoat](https://github.com/berkanlafci/datoat).
+For more information on downloading datasets proposed within the scope of this work (MSFD, SWFD, SCD), check [github.com/berkanlafci/oadat](https://github.com/berkanlafci/oadat).
 
 ___
 ## Load presented pretrained models:  
 
 A demo file showcasing how to load and evaluate any of the pretrained models is shown in file [demo.ipynb](notebooks/load_pretrained_models.ipynb).
-The repository contains a sample for each task for each dataset for which one can see how to evaluate a pretrained model for a given sample without needing to download the whole dataset. 
-This can also be checked on an interactive [renku session](https://renkulab.io/projects/firat.ozdemir/oa-armsim/sessions/new?autostart=1). 
+The repository contains a sample for each task for each dataset for which one can see how to evaluate a pretrained model for a given sample without needing to download the whole dataset.   
+This can also be checked on an interactive [renku session](https://renkulab.io/projects/firat.ozdemir/oa-armsim/sessions/new?autostart=1).   
+The sample images are created using function [save_single_sample_for_each_task_to_repo](src/utils.py), which selects 1000th item from test set.
+
 
 ___
 ## Train models from scratch
