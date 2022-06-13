@@ -21,12 +21,12 @@ import tf_utils
 
 class ExpSetup:
     '''A simple experiment setup class to define hyper-parameters and train/val sets'''
-    def __init__(self, load_specific_ckpt=None):
+    def __init__(self, datasets_parent_dir=None, task_str=None, logdir=None, load_specific_ckpt=None):
         ###############################
         ### Customize the following block
-        self.datasets_parent_dir = '/home/firat/docs/dlbirhoui/parsed_data2'
-        task_str = "seg_ss64,vc"
-        self.logdir = os.path.join('/home/firat/saved_models/DLBIRHOUI/datasets_and_benchmarks/oadat_evaluate', task_str)
+        self.datasets_parent_dir = '/home/firat/docs/dlbirhoui/parsed_data2' if datasets_parent_dir is None else datasets_parent_dir
+        task_str = "seg_ss32,vc" if task_str is None else task_str
+        self.logdir = os.path.join('/home/firat/saved_models/DLBIRHOUI/datasets_and_benchmarks/oadat_evaluate', task_str) if logdir is None else logdir
         ###############################
         self.hpobj = utils.ImageSegmentationSetups(task_str=task_str, datasets_parent_dir=self.datasets_parent_dir)
         self.prng = np.random.RandomState(42)
@@ -157,8 +157,7 @@ class ExpSetup:
         self.training_helper.save(epoch_current, best_val_loss)
         
 
-def train():
-    args = ExpSetup()
+def train(args):
 
     ## Read a few important variables
     logdir = args.logdir
@@ -307,7 +306,8 @@ def main(args):
     tf.config.set_visible_devices(gpus[1], 'GPU') ## Use only GPU 0
     for gpu_instance in tf.config.list_physical_devices('GPU'): 
         tf.config.experimental.set_memory_growth(gpu_instance, True)
-    train()
+    args = ExpSetup()
+    train(args)
     
 if __name__ == "__main__":
     main(0)
