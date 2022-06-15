@@ -7,7 +7,8 @@ Namely, included tools allow to
 - load all presented pretrained models 
 - evaluate a given pretrained model for a single sample
 - train the presented models from scratch for each task
-- batch evaluate a given serialized model (pretrained or your own) on corresponding OADAT test set for all presented metrics.
+- batch evaluate a given serialized model (pretrained or your own) on corresponding OADAT test set for all presented metrics
+- read any sample from the provided dataset, OADAT.
   
 For more information on downloading datasets proposed within the scope of this work (MSFD, SWFD, SCD), check [github.com/berkanlafci/oadat](https://github.com/berkanlafci/oadat).
 
@@ -101,7 +102,22 @@ path_serialized_model = '/trained_models/oadat_seg_ss64,vc/serialized_model_step
 model = tf.keras.models.load_model(path_serialized_model, compile=False)
 eval_segmentation.eval(model, task_str, datasets_parent_dir, fname_out)
 ```
+___
 
+## Use data loaders to read a sample from datasets
+
+We provide a data loader class to read from datasets, whether it is to train a neural network model or simply analyzing the datasets. 
+Sample script to read a desired index from desired dataset variables ([also available as a notebook](notebooks/read_data.ipynb)):  
+```python
+datasets_parent_dir = '/data/oadat' # assuming datasets downloaded here.
+fname_dataset = 'SWFD_semicircle_RawBP.h5' ## example for SWFD semi circle dataset
+fname_h5 = os.path.join(datasets_parent_dir, fname_dataset)
+inds = None # if not None, generator will be limited to the provided dataset indices.
+in_key = 'sc,ss32_BP' # example for semi circle sparse 32 images 
+out_key = 'sc_BP' # example for semi circle array images
+gen = generators.Generator_Paired_Input_Output(fname_h5=fname_h5, inds=inds, in_key=in_key, out_key=out_key, shuffle=True)
+x, y = gen[42] # returns (in_key, out_key) tuple for 42th index in the dataset.
+```
 ___
 ## Requirements
 
