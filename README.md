@@ -1,9 +1,10 @@
 # oadat-evaluate
 
 [![launch - renku](https://renkulab.io/renku-badge.svg)](https://renkulab.io/projects/firat.ozdemir/oa-armsim/sessions/new?autostart=1) 
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT) 
+[![arXiv](https://img.shields.io/badge/preprint-arXiv-b31b1b.svg)](https://arxiv.org/abs/2206.08612)
 
-This project provides a multitude of tools around the neural network experiments presented in Lafci, B., Ozdemir, F., Dean-Bean, X.L., Razansky D., and Perez-Cruz, F. (2022). OADAT: Experimental and Synthetic Clinical Optoacoustic Data for Standardized Image Processing.  
+This project provides a multitude of tools around the neural network experiments presented in Berkan Lafci, Firat Ozdemir, Xosé Luís Deán-Ben, Daniel Razansky, and Fernando Perez-Cruz. OADAT: Experimental and synthetic clinical optoacoustic data for standardized image processing. arXiv preprint arXiv:2206.08612, 2022.   
 Namely, included tools allow to  
 - load all presented pretrained models 
 - evaluate a given pretrained model for a single sample
@@ -127,5 +128,16 @@ This project uses Tensorflow. We tested it to work for TF 2.7 and 2.8.
 ___
 ## Citation  
 
-TBA
-
+Please cite to this work using the following Bibtex entry:
+```
+@article{lafci2022oadat,
+  doi = {10.48550/ARXIV.2206.08612},
+  url = {https://arxiv.org/abs/2206.08612},
+  author = {Lafci, Berkan and Ozdemir, Firat and Deán-Ben, Xosé Luís and Razansky, Daniel and Perez-Cruz, Fernando},
+  title = {{OADAT}: Experimental and Synthetic Clinical Optoacoustic Data for Standardized Image Processing},
+  publisher = {arXiv},
+  year = {2022},
+  copyright = {Creative Commons Attribution Non Commercial Share Alike 4.0 International},
+  journal={arXiv preprint arXiv:2206.08612},
+}
+```
