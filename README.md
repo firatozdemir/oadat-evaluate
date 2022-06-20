@@ -1,8 +1,8 @@
 # oadat-evaluate
 
 [![launch - renku](https://renkulab.io/renku-badge.svg)](https://renkulab.io/projects/firat.ozdemir/oa-armsim/sessions/new?autostart=1) 
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT) 
 [![arXiv](https://img.shields.io/badge/preprint-arXiv-b31b1b.svg)](https://arxiv.org/abs/2206.08612)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT) 
 
 This project provides a multitude of tools around the neural network experiments presented in Berkan Lafci, Firat Ozdemir, Xosé Luís Deán-Ben, Daniel Razansky, and Fernando Perez-Cruz. OADAT: Experimental and synthetic clinical optoacoustic data for standardized image processing. arXiv preprint arXiv:2206.08612, 2022.   
 Namely, included tools allow to  
