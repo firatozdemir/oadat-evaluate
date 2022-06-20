@@ -12,7 +12,12 @@ Namely, included tools allow to
 - batch evaluate a given serialized model (pretrained or your own) on corresponding OADAT test set for all presented metrics
 - read any sample from the provided dataset, OADAT.
   
-For more information on downloading datasets proposed within the scope of this work (MSFD, SWFD, SCD), check [github.com/berkanlafci/oadat](https://github.com/berkanlafci/oadat).
+___
+
+## Accessing the dataset: OADAT 
+
+For information on downloading datasets proposed within the scope of this work (MSFD, SWFD, SCD), check [github.com/berkanlafci/oadat](https://github.com/berkanlafci/oadat).  
+Dataset will be publicly available soon: [DOI for dataset files](https://www.research-collection.ethz.ch/handle/20.500.11850/551512).
 
 ___
 ## Load presented pretrained models:  
@@ -123,7 +128,8 @@ x, y = gen[42] # returns (in_key, out_key) tuple for 42th index in the dataset.
 ___
 ## Requirements
 
-This project uses Tensorflow. We tested it to work for TF 2.7 and 2.8. 
+This project uses Tensorflow.  
+We tested it to work for python 3.9 and TF 2.7 & 2.8. 
 
 ___
 ## Citation  
