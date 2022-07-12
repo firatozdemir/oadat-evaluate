@@ -1,8 +1,9 @@
 # oadat-evaluate
 
-[![launch - renku](https://renkulab.io/renku-badge.svg)](https://renkulab.io/projects/firat.ozdemir/oa-armsim/sessions/new?autostart=1) 
-[![arXiv](https://img.shields.io/badge/preprint-arXiv-b31b1b.svg)](https://arxiv.org/abs/2206.08612)
+[![Launch - renku](https://renkulab.io/renku-badge.svg)](https://renkulab.io/projects/firat.ozdemir/oadat-evaluate/sessions/new?autostart=1) 
+[![arXiv](https://img.shields.io/badge/Preprint-arXiv-b31b1b.svg)](https://arxiv.org/abs/2206.08612)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT) 
+[![Data](https://img.shields.io/badge/Data-Research%20Collection-blue)](https://www.research-collection.ethz.ch/handle/20.500.11850/551512)
 
 This project provides a multitude of tools around the neural network experiments presented in Berkan Lafci, Firat Ozdemir, Xosé Luís Deán-Ben, Daniel Razansky, and Fernando Perez-Cruz. OADAT: Experimental and synthetic clinical optoacoustic data for standardized image processing. arXiv preprint arXiv:2206.08612, 2022.   
 Namely, included tools allow to  
@@ -24,7 +25,7 @@ ___
 
 A demo file showcasing how to load and evaluate any of the pretrained models is shown in file [demo.ipynb](notebooks/load_pretrained_models.ipynb) (NOTE: [Git LFS files are only hosted in renku gitlab instance](https://renkulab.io/gitlab/firat.ozdemir/oadat-evaluate)).
 The repository contains a sample for each task for each dataset for which one can see how to evaluate a pretrained model for a given sample without needing to download the whole dataset.   
-This can also be checked on an interactive [renku session](https://renkulab.io/projects/firat.ozdemir/oa-armsim/sessions/new?autostart=1).   
+This can also be checked on an interactive [renku session](https://renkulab.io/projects/firat.ozdemir/oadat-evaluate/sessions/new?autostart=1).   
 The sample images are created using function [save_single_sample_for_each_task_to_repo](src/utils.py), which selects 1000th item from test set.  
 
 Sample script to load a pretrained model:
@@ -147,3 +148,8 @@ Please cite to this work using the following Bibtex entry:
   journal={arXiv preprint arXiv:2206.08612},
 }
 ```
+
+___
+## OA-armsim
+
+You can find the source code for synthetic acoustic pressure map creation at [oa-armsim](https://renkulab.io/gitlab/firat.ozdemir/oa-armsim).
