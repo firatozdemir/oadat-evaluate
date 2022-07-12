@@ -22,7 +22,7 @@ Dataset will be publicly available soon: [DOI for dataset files](https://www.res
 ___
 ## Load presented pretrained models:  
 
-A demo file showcasing how to load and evaluate any of the pretrained models is shown in file [demo.ipynb](notebooks/load_pretrained_models.ipynb).
+A demo file showcasing how to load and evaluate any of the pretrained models is shown in file [demo.ipynb](notebooks/load_pretrained_models.ipynb) (NOTE: [Git LFS files are only hosted in renku gitlab instance](https://renkulab.io/gitlab/firat.ozdemir/oadat-evaluate)).
 The repository contains a sample for each task for each dataset for which one can see how to evaluate a pretrained model for a given sample without needing to download the whole dataset.   
 This can also be checked on an interactive [renku session](https://renkulab.io/projects/firat.ozdemir/oa-armsim/sessions/new?autostart=1).   
 The sample images are created using function [save_single_sample_for_each_task_to_repo](src/utils.py), which selects 1000th item from test set.  
@@ -78,13 +78,13 @@ Next, modify the following attributes under main to fit your needs:
 - task_str: String variable that identifies the experiment to be trained for. Full list of experiments are   
 `['msfd_lv128,li', 'swfd_lv128,li', 'swfd_lv128,sc', 'swfd_ss32,sc', 'swfd_ss64,sc', 'swfd_ss128,sc', 'scd_ss32,vc', 'scd_lv128,vc', 'scd_ss64,vc', 'scd_ss128,vc', 'scd_lv128,li', 'scd_lv256,ms', 'seg_ss32,vc', 'seg_ss128,vc', 'seg_ss64,vc', 'seg_lv128,li', 'seg_lv128,vc', 'seg_vc,vc']`
 - fname_out: Path to the file where you want the computed metrics to be saved to.   
-
-When evaluating one of the provided pretrained networks, this is sufficient. 
+  
+When evaluating one of the provided pretrained networks, this is sufficient (NOTE: [Git LFS files are only hosted in renku gitlab instance](https://renkulab.io/gitlab/firat.ozdemir/oadat-evaluate)). 
 However, when evaluating a custom serialized model, you need to uncomment the following two lines and provide: 
 - path_serialized_model: Path to the directory where the serialized model is saved to.
 
 
-Sample script to evaluate a pretrained translation model (same logic applies to evaluating segmentation model):
+Sample script to evaluate a pretrained translation model (same logic applies to evaluating segmentation model) (NOTE: [Git LFS files are only hosted in renku gitlab instance](https://renkulab.io/gitlab/firat.ozdemir/oadat-evaluate)):
 ```python
 import utils
 import eval_translation
