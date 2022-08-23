@@ -1,0 +1,11 @@
+name: "base"
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - tensorflow
+  - h5py
+  - scipy
+  - scikit-image
+  - scikit-learn
+prefix: "/opt/conda"
