@@ -14,6 +14,20 @@ Namely, included tools allow to
 - read any sample from the provided dataset, OADAT.
   
 ___
+## Setup
+
+Clone the repository
+```bash
+git clone https://github.com/firatozdemir/oadat-evaluate.git
+```
+
+Initialize original repo from gitlab as a submodule
+```bash
+git submodule init  
+git submodule update
+```
+
+___
 
 ## Accessing the dataset: OADAT 
 
@@ -30,7 +44,7 @@ The sample images are created using function [save_single_sample_for_each_task_t
 
 Sample script to load a pretrained model:
 ```python
-import utils
+from oadat_evaluate.src import utils as utils
 mpm_obj = utils.Manage_Pretrained_Models()
 task_str = 'seg_ss32,vc'
 model = mpm_obj.load_model(task_str=task_str)
@@ -51,7 +65,7 @@ Next, modify the following attributes within ExpSetup class to fit your needs:
 
 Sample script to train an image translation model from scratch for experiment `swfd_ss128,sc`:  
 ```python
-import train_translation
+from oadat_evaluate.src import train_translation as train_translation
 datasets_parent_dir = '/data/oadat' # assuming datasets downloaded here.
 task_str = 'swfd_ss128,sc'
 logdir = '/trained_models/oadat_swfd_ss128,sc'
@@ -60,7 +74,7 @@ train_translation.train(args)
 ```
 Sample script to train semantic segmentation model from scratch for experiment `seg_ss64,vc`:  
 ```python
-import train_segmentation
+from oadat_evaluate.src import train_segmentation as train_segmentation
 datasets_parent_dir = '/data/oadat' # assuming datasets downloaded here.
 task_str = 'seg_ss64,vc'
 logdir = '/trained_models/oadat_seg_ss64,vc'
@@ -87,8 +101,8 @@ However, when evaluating a custom serialized model, you need to uncomment the fo
 
 Sample script to evaluate a pretrained translation model (same logic applies to evaluating segmentation model):
 ```python
-import utils
-import eval_translation
+from oadat_evaluate.src import utils as utils
+from oadat_evaluate.src import eval_translation as eval_translation
 mpm_obj = utils.Manage_Pretrained_Models()
 task_str = 'swfd_lv128,li'
 datasets_parent_dir = '/data/oadat' # assuming datasets downloaded here.
@@ -99,8 +113,8 @@ eval_translation.eval(model, task_str, datasets_parent_dir, fname_out)
 
 Sample script to evaluate any serialized (custom) model for a segmentation experiment (same logic applies to evaluating image translation model):
 ```python
-import utils
-import eval_segmentation
+from oadat_evaluate.src import utils as utils
+from oadat_evaluate.src import eval_segmentation as eval_segmentation
 mpm_obj = utils.Manage_Pretrained_Models()
 task_str = 'seg_ss64,vc'
 datasets_parent_dir = '/data/oadat' # assuming datasets downloaded here.
@@ -117,6 +131,7 @@ ___
 We provide a data loader class to read from datasets, whether it is to train a neural network model or simply analyzing the datasets. 
 Sample script to read a desired index from desired dataset variables ([also available as a notebook](notebooks/read_data.ipynb)):  
 ```python
+from oadat_evaluate.src import generators as generators
 datasets_parent_dir = '/data/oadat' # assuming datasets downloaded here.
 fname_dataset = 'SWFD_semicircle_RawBP.h5' ## example for SWFD semi circle dataset
 fname_h5 = os.path.join(datasets_parent_dir, fname_dataset)
