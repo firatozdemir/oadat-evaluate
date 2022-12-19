@@ -5,6 +5,8 @@ import h5py
 import pickle
 import decimal
 import copy
+import cv2
+from scipy.spatial.distance import cdist
 import logging
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(message)s")
 
@@ -15,6 +17,33 @@ print('TF version: ', tf.__version__)
 
 # Import custom libs
 import utils
+
+def compute_hausdorff_distance(ypred, ytrue):
+    ##TODO: check if method works on minibatches, and make it do.
+    ypc, _ = cv2.findContours(np.asarray(ypred, dtype=np.uint8), cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+    ytc, _ = cv2.findContours(np.asarray(ytrue, dtype=np.uint8), cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+    ## merge different contour blobs
+    yp_coord = np.squeeze(np.concatenate(ypc, axis=0))
+    yt_coord = np.squeeze(np.concatenate(ytc, axis=0))
+
+    # #render contours on pixels
+    # mask = np.zeros(ypred.shape, np.uint8)
+    # cv2.drawContours(mask, ypc, -1, (1),1)
+    # ypc = mask
+    # mask = np.zeros(ytrue.shape, np.uint8)
+    # cv2.drawContours(mask, ytc, -1, (1),1)
+    # ytc = mask
+
+    d = cdist(yt_coord, yp_coord, metric='euclidean')
+    dist_ab = np.min(d, axis=0)
+    dist_ba = np.min(d, axis=1)
+    hd = np.max((np.max(dist_ab), np.max(dist_ba)))
+    hd95 = np.max((np.percentile(dist_ab, 95), np.percentile(dist_ba, 95)))
+    hd99 = np.max((np.percentile(dist_ab, 99), np.percentile(dist_ba, 99)))
+
+    return (hd95, hd99, hd)
+
+
 
 def eval(model, task_str, datasets_parent_dir, fname_out):
     hpobj = utils.load_model_hyperparameters(task_str=task_str, datasets_parent_dir=datasets_parent_dir)
@@ -47,7 +76,7 @@ def eval(model, task_str, datasets_parent_dir, fname_out):
         for i_w, wavelength in enumerate(wavelengths):
             in_key_curr = in_key[i_w]
             out_key_curr = out_key[i_w]
-            d_res = {'precision': np.inf*np.ones((num_samples,num_classes)), 'recall': np.inf*np.ones((num_samples,num_classes)), 'dice': np.inf*np.ones((num_samples,num_classes)), 'iou': np.inf*np.ones((num_samples,num_classes)), 'TP': np.inf*np.ones((num_samples,num_classes)) , 'FP': np.inf*np.ones((num_samples,num_classes)), 'TN': np.inf*np.ones((num_samples,num_classes)), 'FN': np.inf*np.ones((num_samples,num_classes))}
+            d_res = {'precision': np.inf*np.ones((num_samples,num_classes)), 'recall': np.inf*np.ones((num_samples,num_classes)), 'dice': np.inf*np.ones((num_samples,num_classes)), 'iou': np.inf*np.ones((num_samples,num_classes)), 'TP': np.inf*np.ones((num_samples,num_classes)) , 'FP': np.inf*np.ones((num_samples,num_classes)), 'TN': np.inf*np.ones((num_samples,num_classes)), 'FN': np.inf*np.ones((num_samples,num_classes)), 'HD95': np.inf*np.ones((num_samples,num_classes)), 'HD99': np.inf*np.ones((num_samples,num_classes)), 'HD': np.inf*np.ones((num_samples,num_classes))}
             for i in range(0, num_samples, bs):
                 if i+bs >= num_samples:
                     iend = num_samples
@@ -84,6 +113,13 @@ def eval(model, task_str, datasets_parent_dir, fname_out):
                     recall = recall_fn(tp=TP, fn=FN)
                     dice = f1_fn(tp=TP, fp=FP, fn=FN)
                     IoU = IoU_fn(tp=TP, fp=FP, fn=FN)
+                    HD95, HD99, HD = [], [] ,[] 
+                    for i_im in range(len(ytrue)):
+                        HD95_, HD99_, HD_ = compute_hausdorff_distance(ypred=ypred_lbl[i_im,...] == lbl, ytrue=ytrue[i_im,...] == lbl) 
+                        HD95.append(HD95_)
+                        HD99.append(HD99_)
+                        HD.append(HD_)
+                    HD95, HD99, HD = np.stack(HD95, axis=0), np.stack(HD99, axis=0), np.stack(HD, axis=0)
 
                     d_res['precision'][i:iend, lbl] = precision
                     d_res['recall'][i:iend, lbl] = recall
@@ -93,6 +129,9 @@ def eval(model, task_str, datasets_parent_dir, fname_out):
                     d_res['FP'][i:iend, lbl] = FP
                     d_res['TN'][i:iend, lbl] = TN
                     d_res['FN'][i:iend, lbl] = FN
+                    d_res['HD95'][i:iend, lbl] = HD95
+                    d_res['HD99'][i:iend, lbl] = HD99
+                    d_res['HD'][i:iend, lbl] = HD
                 logging.info('Wavelength: %d (%d/%d). Completed %d/%d.' % (wavelength, (i_w+1), num_wavelengths, iend, num_samples))
             d_res_all[wavelength] = copy.deepcopy(d_res)
         with open(fname_out, 'wb') as fh:
@@ -103,7 +142,7 @@ def eval(model, task_str, datasets_parent_dir, fname_out):
 
         bs = 100 ## batchsize
         num_samples = len(inds_test)
-        d_res = {'precision': np.inf*np.ones((num_samples,num_classes)), 'recall': np.inf*np.ones((num_samples,num_classes)), 'dice': np.inf*np.ones((num_samples,num_classes)), 'iou': np.inf*np.ones((num_samples,num_classes)), 'TP': np.inf*np.ones((num_samples,num_classes)) , 'FP': np.inf*np.ones((num_samples,num_classes)), 'TN': np.inf*np.ones((num_samples,num_classes)), 'FN': np.inf*np.ones((num_samples,num_classes))}
+        d_res = {'precision': np.inf*np.ones((num_samples,num_classes)), 'recall': np.inf*np.ones((num_samples,num_classes)), 'dice': np.inf*np.ones((num_samples,num_classes)), 'iou': np.inf*np.ones((num_samples,num_classes)), 'TP': np.inf*np.ones((num_samples,num_classes)) , 'FP': np.inf*np.ones((num_samples,num_classes)), 'TN': np.inf*np.ones((num_samples,num_classes)), 'FN': np.inf*np.ones((num_samples,num_classes)), 'HD95': np.inf*np.ones((num_samples,num_classes)), 'HD99': np.inf*np.ones((num_samples,num_classes)), 'HD': np.inf*np.ones((num_samples,num_classes))}
         for i in range(0, num_samples, bs):
             if i+bs >= num_samples:
                 iend = num_samples
@@ -140,6 +179,13 @@ def eval(model, task_str, datasets_parent_dir, fname_out):
                 recall = recall_fn(tp=TP, fn=FN)
                 dice = f1_fn(tp=TP, fp=FP, fn=FN)
                 IoU = IoU_fn(tp=TP, fp=FP, fn=FN)
+                HD95, HD99, HD = [], [] ,[] 
+                for i_im in range(len(ytrue)):
+                    HD95_, HD99_, HD_ = compute_hausdorff_distance(ypred=ypred_lbl[i_im,...] == lbl, ytrue=ytrue[i_im,...] == lbl) 
+                    HD95.append(HD95_)
+                    HD99.append(HD99_)
+                    HD.append(HD_)
+                HD95, HD99, HD = np.stack(HD95, axis=0), np.stack(HD99, axis=0), np.stack(HD, axis=0)
 
                 d_res['precision'][i:iend, lbl] = precision
                 d_res['recall'][i:iend, lbl] = recall
@@ -149,6 +195,9 @@ def eval(model, task_str, datasets_parent_dir, fname_out):
                 d_res['FP'][i:iend, lbl] = FP
                 d_res['TN'][i:iend, lbl] = TN
                 d_res['FN'][i:iend, lbl] = FN
+                d_res['HD95'][i:iend, lbl] = HD95
+                d_res['HD99'][i:iend, lbl] = HD99
+                d_res['HD'][i:iend, lbl] = HD
             logging.info('Completed %d/%d.' % (iend, num_samples))
 
         if len(labels)==3:

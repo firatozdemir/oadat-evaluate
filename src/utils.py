@@ -916,7 +916,7 @@ class Manage_Pretrained_Models:
             os.system(f'git lfs pull -I {self.d_model_paths[task_str]}') ## pull model from git LFS 
         else:
             raise AssertionError(f'Not recognized task_str: {task_str}. Options are: {self.list_task_str}.')
-        return tf.keras.models.load_model(self.d_model_paths[task_str], compile=False)
+        return tf.keras.models.load_model(self.d_model_paths[task_str], compile=False).expect_partial()
 
 def save_single_sample_for_each_task_to_repo(datasets_parent_dir, sample_testdata_index_to_save=1000):
     '''This is the script used to save a sample for each task from the test set.'''
