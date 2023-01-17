@@ -2,7 +2,7 @@
 # https://github.com/SwissDataScienceCenter/renkulab-docker
 # ARG RENKU_BASE_IMAGE=renku/renkulab-py:3.9-0.11.1
 #ARG RENKU_BASE_IMAGE=renku/renkulab-cuda:11.3-0.13.0
-ARG RENKU_BASE_IMAGE=renku/renkulab-cuda-tf
+ARG RENKU_BASE_IMAGE=renku/renkulab-cuda-tf:11.2-tf-2.9-50b098f
 FROM ${RENKU_BASE_IMAGE}
 
 # Uncomment and adapt if code is to be included in the image
