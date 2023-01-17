@@ -382,7 +382,10 @@ def main(args):
     for gpu_instance in tf.config.list_physical_devices('GPU'): 
         tf.config.experimental.set_memory_growth(gpu_instance, True)
 
-    args = ExpSetup()
+    datasets_parent_dir = "cloudstorage/oadat"
+    logdir = '.'
+    task_str = "swfd_ss32,sc"
+    args = ExpSetup(datasets_parent_dir=datasets_parent_dir, logdir=logdir, task_str=task_str)
     train(args)
     
 if __name__ == "__main__":
