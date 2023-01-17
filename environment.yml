@@ -1,11 +1,12 @@
 name: "base"
 channels:
   - defaults
-  - conda-forge
 dependencies:
-  - tensorflow
+  - python==3.9
   - h5py
-  - scipy
+  - scipy=1.8
   - scikit-image
-  - scikit-learn
+  - scikit-learn==1.1
+  - pip:
+        - tensorflow==2.9
 prefix: "/opt/conda"
