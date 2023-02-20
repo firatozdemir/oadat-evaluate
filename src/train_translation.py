@@ -382,9 +382,9 @@ def main(args):
     for gpu_instance in tf.config.list_physical_devices('GPU'): 
         tf.config.experimental.set_memory_growth(gpu_instance, True)
 
-    datasets_parent_dir = "/home/jovyan/work/oadat-evaluate/cloudstorage/oadat"
-    logdir = '.'
-    task_str = "swfd_ss32,sc"
+    datasets_parent_dir = "./oadat" #change this to relevant directory
+    logdir = '.' #change this to relevant directory
+    task_str = "swfd_ss32,sc" #change this to relevant task string
     args = ExpSetup(datasets_parent_dir=datasets_parent_dir, logdir=logdir, task_str=task_str)
     train(args)
     
