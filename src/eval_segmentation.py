@@ -11,7 +11,6 @@ import logging
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(message)s")
 
 import tensorflow as tf
-# import tensorflow_addons as tfa
 print('TF version: ', tf.__version__)
 
 
@@ -19,20 +18,11 @@ print('TF version: ', tf.__version__)
 import utils
 
 def compute_hausdorff_distance(ypred, ytrue):
-    ##TODO: check if method works on minibatches, and make it do.
     ypc, _ = cv2.findContours(np.asarray(ypred, dtype=np.uint8), cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
     ytc, _ = cv2.findContours(np.asarray(ytrue, dtype=np.uint8), cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
     ## merge different contour blobs
     yp_coord = np.squeeze(np.concatenate(ypc, axis=0))
     yt_coord = np.squeeze(np.concatenate(ytc, axis=0))
-
-    # #render contours on pixels
-    # mask = np.zeros(ypred.shape, np.uint8)
-    # cv2.drawContours(mask, ypc, -1, (1),1)
-    # ypc = mask
-    # mask = np.zeros(ytrue.shape, np.uint8)
-    # cv2.drawContours(mask, ytc, -1, (1),1)
-    # ytc = mask
 
     d = cdist(yt_coord, yp_coord, metric='euclidean')
     dist_ab = np.min(d, axis=0)
