@@ -3,7 +3,7 @@
 [![Launch - renku](https://renkulab.io/renku-badge.svg)](https://renkulab.io/projects/firat.ozdemir/oadat-evaluate/sessions/new?autostart=1) 
 [![arXiv](https://img.shields.io/badge/Preprint-arXiv-b31b1b.svg)](https://arxiv.org/abs/2206.08612)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT) 
-[![Data](https://img.shields.io/badge/Data-Research%20Collection-blue)](https://www.research-collection.ethz.ch/handle/20.500.11850/551512)
+[![Data](https://img.shields.io/badge/Data-Research%20Collection-blue)](https://doi.org/10.3929/ethz-b-000551512)
 
 This project provides a multitude of tools around the neural network experiments presented in Berkan Lafci, Firat Ozdemir, Xosé Luís Deán-Ben, Daniel Razansky, and Fernando Perez-Cruz. OADAT: Experimental and synthetic clinical optoacoustic data for standardized image processing. arXiv preprint arXiv:2206.08612, 2022.   
 Namely, included tools allow to  
@@ -18,7 +18,7 @@ ___
 ## Accessing the dataset: OADAT 
 
 For information on downloading datasets proposed within the scope of this work (MSFD, SWFD, SCD), check [github.com/berkanlafci/oadat](https://github.com/berkanlafci/oadat).  
-Dataset will be publicly available soon: [DOI for dataset files](https://www.research-collection.ethz.ch/handle/20.500.11850/551512).
+Dataset is publicly available: [DOI for dataset files](https://doi.org/10.3929/ethz-b-000551512).
 
 ___
 ## Load presented pretrained models:  
@@ -137,15 +137,15 @@ ___
 
 Please cite to this work using the following Bibtex entry:
 ```
-@article{lafci2022oadat,
-  doi = {10.48550/ARXIV.2206.08612},
-  url = {https://arxiv.org/abs/2206.08612},
-  author = {Lafci, Berkan and Ozdemir, Firat and Deán-Ben, Xosé Luís and Razansky, Daniel and Perez-Cruz, Fernando},
-  title = {{OADAT}: Experimental and Synthetic Clinical Optoacoustic Data for Standardized Image Processing},
-  publisher = {arXiv},
-  year = {2022},
-  copyright = {Creative Commons Attribution Non Commercial Share Alike 4.0 International},
-  journal={arXiv preprint arXiv:2206.08612},
+@article{
+ozdemir2022oadat,
+title={{OADAT}: Experimental and Synthetic Clinical Optoacoustic Data for Standardized Image Processing},
+author={Firat Ozdemir and Berkan Lafci and Xose Luis Dean-Ben and Daniel Razansky and Fernando Perez-Cruz},
+journal={Transactions on Machine Learning Research},
+issn={2835-8856},
+year={2022},
+url={https://openreview.net/forum?id=BVi6MhKO0G},
+note={}
 }
 ```
 
