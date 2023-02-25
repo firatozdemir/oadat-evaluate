@@ -5,7 +5,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT) 
 [![Data](https://img.shields.io/badge/Data-Research%20Collection-blue)](https://doi.org/10.3929/ethz-b-000551512)
 
-This project provides a multitude of tools around the neural network experiments presented in Berkan Lafci, Firat Ozdemir, Xosé Luís Deán-Ben, Daniel Razansky, and Fernando Perez-Cruz. OADAT: Experimental and synthetic clinical optoacoustic data for standardized image processing. arXiv preprint arXiv:2206.08612, 2022.   
+This project provides a multitude of tools around the neural network experiments presented in Firat Ozdemir, Berkan Lafci, Xosé Luís Deán-Ben, Daniel Razansky, and Fernando Perez-Cruz. OADAT: Experimental and synthetic clinical optoacoustic data for standardized image processing. Transactions on Machine Learning Research (TMLR), 2022.    
 Namely, included tools allow to  
 - load all presented pretrained models 
 - evaluate a given pretrained model for a single sample
