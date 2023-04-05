@@ -1,7 +1,7 @@
 # oadat-evaluate
 
 [![Launch - renku](https://renkulab.io/renku-badge.svg)](https://renkulab.io/projects/firat.ozdemir/oadat-evaluate/sessions/new?autostart=1) 
-[![arXiv](https://img.shields.io/badge/Preprint-arXiv-b31b1b.svg)](https://arxiv.org/abs/2206.08612)
+[![Paper](https://img.shields.io/badge/Manuscript-pdf-b31b1b)](https://openreview.net/pdf?id=BVi6MhKO0G)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT) 
 [![Data](https://img.shields.io/badge/Data-Research%20Collection-blue)](https://doi.org/10.3929/ethz-b-000551512)
 
