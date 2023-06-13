@@ -20,7 +20,7 @@
   "description": "Tools to load pretrained models and evaluate OADAT tasks",
   "id": "/projects/firat.ozdemir/oadat-evaluate",
   "keywords": [],
-  "minimum_renku_version": "1.7.0",
+  "minimum_renku_version": "2.4.0",
   "name": "oadat-evaluate",
   "template_metadata": {
     "@renku_data_type": "renku.domain_model.project.ProjectTemplateMetadata",
