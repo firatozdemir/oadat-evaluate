@@ -127,10 +127,32 @@ gen = generators.Generator_Paired_Input_Output(fname_h5=fname_h5, inds=inds, in_
 x, y = gen[42] # returns (in_key, out_key) tuple for 42th index in the dataset.
 ```
 ___
+
+## Demo scripts 
+
+Below are some sample scripts to exploring this repository:  
+1. Download OADAT-mini files from [here](https://doi.org/10.3929/ethz-b-000551512).
+```bash
+bash download-oadat-mini.sh
+```
+2. Run a very short training of a model for a given task on OADAT-mini
+```python
+python train_segmentation_demo.py --task_str="seg_swfd_lv128,sc" --datasets_parent_dir="data/OADAT-mini" --logdir="trained_models/seg_swfd_lv128,sc"
+```
+3. (a) Run evaluation script to compute metrics using a pretrained for a given task on OADAT-mini.
+```python
+python eval_segmentation_demo.py --task_str="seg_swfd_lv128,sc" --datasets_parent_dir="data/OADAT-mini" --fname_out="trained_models/seg_swfd_lv128,sc/eval.p"
+```
+3. (b) Run evaluation script to compute metrics using a model trained on step 2. for a given task on OADAT-mini.
+```python
+python eval_segmentation_demo.py --task_str="seg_swfd_lv128,sc" --datasets_parent_dir="data/OADAT-mini" --fname_out="trained_models/seg_swfd_lv128,sc/eval.p" --path_serialized_model='path/to/serialized/model/from/step/2'
+```
+___
 ## Requirements
 
 This project uses Tensorflow.  
-We tested it to work for python 3.9 and TF 2.7 & 2.8. 
+We tested it to work for python 3.9 and TF 2.7 & 2.8.  
+Demo scripts can be run on publicly available resources of Renku UI. 
 
 ___
 ## Citation  
