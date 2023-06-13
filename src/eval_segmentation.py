@@ -21,6 +21,13 @@ def compute_hausdorff_distance(ypred, ytrue):
     ypc, _ = cv2.findContours(np.asarray(ypred, dtype=np.uint8), cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
     ytc, _ = cv2.findContours(np.asarray(ytrue, dtype=np.uint8), cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
     ## merge different contour blobs
+    if len(ypc) == 0 and len(ytc) == 0:
+        if np.unique(ypred) == False and np.unique(ytrue) == False: ## both are empty
+            return (0, 0, 0)
+    elif len(ypc) == 0 and len(ytc) != 0:
+        return (np.inf, np.inf, np.inf)
+    elif len(ypc) != 0 and len(ytc) == 0:
+        return (np.inf, np.inf, np.inf)
     yp_coord = np.squeeze(np.concatenate(ypc, axis=0))
     yt_coord = np.squeeze(np.concatenate(ytc, axis=0))
 

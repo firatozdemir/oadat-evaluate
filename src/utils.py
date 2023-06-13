@@ -909,14 +909,23 @@ class Manage_Pretrained_Models:
         model_path = "pretrained_models/seg_msfd_lv128,ms/serialized_model_step_4000"
         task_str = 'seg_msfd_lv128,ms'
         self.d_model_paths[task_str] = model_path
-        
-
+    
     def load_model(self, task_str):
         if str(task_str).lower() in self.list_task_str:
-            os.system(f'git lfs pull -I {self.d_model_paths[task_str]}') ## pull model from git LFS 
+            lfs_pull_dir(self.d_model_paths[task_str]) ## pull model from git LFS 
+            # os.system(f'git lfs pull -I {self.d_model_paths[task_str]}') ## pull model from git LFS 
         else:
             raise AssertionError(f'Not recognized task_str: {task_str}. Options are: {self.list_task_str}.')
         return tf.keras.models.load_model(self.d_model_paths[task_str], compile=False)
+
+def lfs_pull_dir(pdir):
+    fl = glob.glob(os.path.join(pdir, '*'))
+    for fname in fl:
+        if os.path.isdir(fname):
+            lfs_pull_dir(fname)
+        else:
+            print(f'pulling LFS file {fname}')
+            os.system(f"git lfs pull -I {fname}")
 
 def save_single_sample_for_each_task_to_repo(datasets_parent_dir, sample_testdata_index_to_save=1000):
     '''This is the script used to save a sample for each task from the test set.'''

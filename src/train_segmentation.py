@@ -22,7 +22,7 @@ import tf_utils
 
 class ExpSetup:
     '''A simple experiment setup class to define hyper-parameters and train/val sets'''
-    def __init__(self, datasets_parent_dir=None, task_str=None, logdir=None, load_specific_ckpt=None):
+    def __init__(self, datasets_parent_dir=None, task_str=None, logdir=None, load_specific_ckpt=None, batch_size=25, num_epochs_train=None):
         ###############################
         ### Customize the following block
         self.datasets_parent_dir = '/home/firat/docs/dlbirhoui/parsed_data2' if datasets_parent_dir is None else datasets_parent_dir
@@ -58,14 +58,21 @@ class ExpSetup:
         self.hpobj = utils.ImageSegmentationSetups(task_str=task_str, datasets_parent_dir=self.datasets_parent_dir)
         self.prng = np.random.RandomState(42)
         # Training hyper-parameters
-        if len(self.hpobj.inds_train) > 100:
-            self.num_epochs_train = 150
-        else: ## only for oadat-mini
-            self.num_epochs_train = 10000
+        if num_epochs_train is not None:
+            self.num_epochs_train = num_epochs_train
+        else:
+            if len(self.hpobj.inds_train) > 100:
+                self.num_epochs_train = 150
+            else: ## only for oadat-mini
+                self.num_epochs_train = 10000
         self.freq_log = 100 # #steps for each summary export
         self.freq_eval_val = 100 # frequency to evaluate validation set [steps]
-        self.batch_size = 25
+        self.batch_size = batch_size
         self.num_steps_train = int(self.num_epochs_train * len(self.hpobj.inds_train)//self.batch_size)
+        if self.freq_log < self.freq_eval_val:
+            self.freq_eval_val = self.freq_log
+        if self.num_steps_train < self.freq_eval_val:
+            self.freq_eval_val = self.num_steps_train
         self.imsize = [256, 256]  # original is [256, 256]
         self.fname_ckpt = os.path.join(self.logdir, 'model_weights.h5')
         self.fname_train_helper = os.path.join(self.logdir, 'train_helper.pkl')
@@ -221,6 +228,7 @@ class ExpSetup:
         model = self.model
         model.save(fname_serialized)
         logging.info(f'Model state at best validation loss (step: {ckpt_num}) is saved as {fname_serialized}.')
+        return fname_serialized
         
 
 def train(args):
@@ -299,17 +307,19 @@ def train(args):
     avg_loss = tf.keras.metrics.Mean(name='loss', dtype=tf.float32) # variable will keep track of average of loss value since last freq_log
     d_dice = {}
     saved_file = False 
-    profiler_scheduler = tf_utils.ProfilerScheduler(init_delay_steps=1001, freq_run_epochs=100, profiler_run_duration=50)
-    profiler_options = tf.profiler.experimental.ProfilerOptions(host_tracer_level=3, python_tracer_level=1, device_tracer_level=1, delay_ms=None)
+    use_profiler = False
+    if use_profiler:
+        profiler_scheduler = tf_utils.ProfilerScheduler(init_delay_steps=1001, freq_run_epochs=100, profiler_run_duration=50)
+        profiler_options = tf.profiler.experimental.ProfilerOptions(host_tracer_level=3, python_tracer_level=1, device_tracer_level=1, delay_ms=None)
     for epoch in range(num_epoch, num_epochs_train):
         t_epoch_start = time.time()
         for x,y in dataset_train: # loop/ over training step for a full epoch
-            if profiler_scheduler.check_to_stop(step=optimizer.iterations.numpy()):
+            if use_profiler and profiler_scheduler.check_to_stop(step=optimizer.iterations.numpy()):
                 tf.profiler.experimental.stop()
                 logging.info("Profiler stopped!")
             loss, y_pred = tf_utils.train_step(model=model, x=x, y=y, optimizer=optimizer, loss_fn=loss_fn, global_gradient_clipnorm=global_gradient_clipnorm)
             num_step = optimizer.iterations
-            if profiler_scheduler.check_to_start(step=optimizer.iterations.numpy(), epoch=epoch):
+            if use_profiler and profiler_scheduler.check_to_start(step=optimizer.iterations.numpy(), epoch=epoch):
                 logging.info("Profiler is starting!")
                 tf.profiler.experimental.start(args.logdir, options=profiler_options)
             avg_loss.update_state(loss) # aggregate values since last flush
@@ -362,7 +372,8 @@ def train(args):
             break
 
     logging.info('Training is completed.')
-    args.serialize_with_best_val_on_exit()
+    serialized_model_fname = args.serialize_with_best_val_on_exit()
+    return serialized_model_fname
 
 
 def main(args):

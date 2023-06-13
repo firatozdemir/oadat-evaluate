@@ -1,6 +1,6 @@
 # For finding latest versions of the base image see
 # https://github.com/SwissDataScienceCenter/renkulab-docker
-ARG RENKU_BASE_IMAGE=renku/renkulab-cuda-tf:11.2-tf-2.9-50b098f
+ARG RENKU_BASE_IMAGE=renku/renkulab-cuda-tf:11.2-tf-2.9-4d92ea3
 FROM ${RENKU_BASE_IMAGE}
 
 # Uncomment and adapt if code is to be included in the image
@@ -17,6 +17,12 @@ FROM ${RENKU_BASE_IMAGE}
 #    vim
 # USER ${NB_USER}
 
+USER root
+RUN apt-get update && \
+   apt-get install -y --no-install-recommends \
+   htop
+USER ${NB_USER}
+
 # install the python dependencies
 COPY requirements.txt environment.yml /tmp/
 RUN conda env update -q -f /tmp/environment.yml && \
@@ -27,7 +33,7 @@ RUN conda env update -q -f /tmp/environment.yml && \
 # RENKU_VERSION determines the version of the renku CLI
 # that will be used in this image. To find the latest version,
 # visit https://pypi.org/project/renku/#history.
-ARG RENKU_VERSION=1.2.4
+ARG RENKU_VERSION=2.1.0
 
 ########################################################
 # Do not edit this section and do not add anything below
