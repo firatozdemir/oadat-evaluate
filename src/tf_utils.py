@@ -1,6 +1,20 @@
 # Author: Firat Ozdemir, May 2022, firat.ozdemir@datascience.ch
 import tensorflow as tf
 
+def setup_gpu(gpu_id):
+    tf.keras.backend.clear_session()
+    gpus = tf.config.list_physical_devices('GPU')
+    print(f"Available GPUs: {gpus}")
+    if gpu_id == -1:
+        tf.config.set_visible_devices([], 'GPU') # do not use any GPU
+    elif gpu_id <= len(gpus):
+        tf.config.set_visible_devices(gpus[gpu_id], 'GPU') ## Use only GPU X
+    else:
+        print(f'Cannot determine gpu {gpu_id} among gpus: {gpus}. Using first gpu: {gpus[0]}.')
+        tf.config.set_visible_devices(gpus[0], 'GPU') ## Use only GPU 0
+    for gpu_instance in tf.config.list_physical_devices('GPU'): 
+        tf.config.experimental.set_memory_growth(gpu_instance, True)
+
 @tf.function
 def export_summary_scalars(dict_name_and_val, step, writer):
     if not isinstance(dict_name_and_val, dict):

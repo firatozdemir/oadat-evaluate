@@ -22,39 +22,10 @@ import tf_utils
 
 class ExpSetup:
     '''A simple experiment setup class to define hyper-parameters and train/val sets'''
-    def __init__(self, datasets_parent_dir=None, task_str=None, logdir=None, load_specific_ckpt=None, batch_size=25, num_epochs_train=None):
+    def __init__(self, datasets_parent_dir, task_str, logdir, load_specific_ckpt=None, batch_size=25, num_epochs_train=None):
         ###############################
-        ### Customize the following block
-        self.datasets_parent_dir = '/home/firat/docs/dlbirhoui/parsed_data2' if datasets_parent_dir is None else datasets_parent_dir
-        # task_str = "seg_ss32,vc" if task_str is None else task_str 
-        # task_str = "seg_swfd_ss32,ms" if task_str is None else task_str 
-        # task_str = "seg_swfd_ss64,ms" if task_str is None else task_str
-        # task_str = "seg_swfd_ss32,sc" if task_str is None else task_str 
-        # task_str = "seg_swfd_ss64,sc" if task_str is None else task_str
-        # task_str = "seg_swfd_ss128,sc" if task_str is None else task_str
-        # task_str = "seg_swfd_sc,sc" if task_str is None else task_str 
-        # task_str = "seg_ss64,vc" if task_str is None else task_str 
-        # task_str = "seg_swfd_ss64,sc" if task_str is None else task_str  
-        # task_str = "seg_swfd_ss128,sc" if task_str is None else task_str 
-        # task_str = "seg_msfd_ss32,ms" if task_str is None else task_str 
-        # task_str = "seg_msfd_ss64,ms" if task_str is None else task_str 
-        # task_str = "seg_msfd_ss128,ms" if task_str is None else task_str 
-        # task_str = "seg_swfd_ss128,ms" if task_str is None else task_str 
-        # task_str = "seg_ss128,vc" if task_str is None else task_str 
-        # task_str = "seg_vc,vc" if task_str is None else task_str 
-        # task_str = "seg_lv128,li" if task_str is None else task_str 
-        # task_str = "seg_ss128,ms" if task_str is None else task_str 
-        # task_str = "seg_ss64,ms" if task_str is None else task_str 
-        # task_str = "seg_ss32,ms" if task_str is None else task_str 
-        # task_str = "seg_lv128,vc" if task_str is None else task_str 
-        # task_str = "seg_swfd_lv128,sc" if task_str is None else task_str 
-        # task_str = "seg_swfd_lv128,ms" if task_str is None else task_str 
-        # task_str = "seg_msfd_ss128,ms" if task_str is None else task_str 
-        # task_str = "scd_ss128,ms" if task_str is None else task_str 
-        # task_str = "seg_msfd_lv128,ms" if task_str is None else task_str 
-        # task_str = "seg_swfd_ms,ms"  if task_str is None else task_str 
-        self.logdir = os.path.join('/home/firat/saved_models/DLBIRHOUI/datasets_and_benchmarks/oadat_evaluate', task_str) if logdir is None else logdir
-        ###############################
+        self.datasets_parent_dir = datasets_parent_dir
+        self.logdir = logdir
         self.hpobj = utils.ImageSegmentationSetups(task_str=task_str, datasets_parent_dir=self.datasets_parent_dir)
         self.prng = np.random.RandomState(42)
         # Training hyper-parameters
