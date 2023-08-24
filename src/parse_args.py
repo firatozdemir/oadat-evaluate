@@ -1,20 +1,6 @@
-import sys, os
-sys.path.append("src")
-import train_segmentation
 import argparse
 
-def main(args):
-    args = parse(args)
-
-    datasets_parent_dir = args.datasets_parent_dir
-    task_str = args.task_str
-    logdir = args.logdir
-    if not os.path.exists(logdir):
-        os.makedirs(logdir)
-    args = train_segmentation.ExpSetup(datasets_parent_dir=datasets_parent_dir, task_str=task_str, logdir=logdir, batch_size=args.batch_size, num_epochs_train=args.num_epochs_train)
-    fname_serialized_model = train_segmentation.train(args)
-
-def parse(args):
+def parse():
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "-t",
@@ -30,6 +16,21 @@ def parse(args):
         type=str,
         help="path to dataset",
         default='data/OADAT-mini',
+        required=False,
+    )
+    parser.add_argument(
+        "-o",
+        "--fname_out",
+        type=str,
+        help="filename for pickled output metrics",
+        default="trained_models/seg_swfd_lv128,sc/eval.p",
+        required=False,
+    )
+    parser.add_argument(
+        "--path_serialized_model",
+        type=str,
+        help="path to serialized model",
+        default=None, ## 'dir/to/serialized/model'
         required=False,
     )
     parser.add_argument(
@@ -54,9 +55,20 @@ def parse(args):
         default=5,
         required=False,
     )
+    parser.add_argument(
+        "--mode",
+        type=str,
+        help="Pick one of ['translate', 'segment']. Default: translate.",
+        default="translate",
+        required=False,
+    )
+    parser.add_argument(
+        "--gpu", 
+        type=int,
+        help="ID of GPU to use. cpu: -1, otherwise will use cuda:gpu. Default:gpu:0",
+        default=0,
+        required=False,
+    )
 
     args = parser.parse_args()
     return args
-
-if __name__ == "__main__":
-    main(0)

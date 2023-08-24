@@ -15,11 +15,19 @@ Namely, included tools allow to
   
 ___
 
-## Accessing the dataset: OADAT 
+## Accessing the dataset: OADAT & OADAT-mini
 
-For information on downloading datasets proposed within the scope of this work (MSFD, SWFD, SCD), check [github.com/berkanlafci/oadat](https://github.com/berkanlafci/oadat).  
-Dataset is publicly available: [DOI for dataset files](https://doi.org/10.3929/ethz-b-000551512).
-
+For information on datasets proposed within the scope of this work (MSFD, SWFD, SCD), check [github.com/berkanlafci/oadat](https://github.com/berkanlafci/oadat).  
+Dataset is publicly available: [DOI for dataset files](https://doi.org/10.3929/ethz-b-000551512).  
+You can use the following scripts to download:  
+- [OADAT](download-oadat-full.sh)   
+```bash
+bash download-oadat-full.sh
+```
+- [OADAT-mini](download-oadat-mini.sh)
+```bash
+bash download-oadat-mini.sh
+```
 ___
 ## Load presented pretrained models:  
 
@@ -130,22 +138,52 @@ ___
 
 ## Demo scripts 
 
-Below are some sample scripts to exploring this repository:  
+Below are some sample scripts to exploring contents of this repository:  
 1. Download OADAT-mini files from [here](https://doi.org/10.3929/ethz-b-000551512).
 ```bash
 bash download-oadat-mini.sh
 ```
-2. Run a very short training of a model for a given task on OADAT-mini
-```python
-python train_segmentation_demo.py --task_str="seg_swfd_lv128,sc" --datasets_parent_dir="data/OADAT-mini" --logdir="trained_models/seg_swfd_lv128,sc"
+2. Run a very short training of a segmentation model for a given task on OADAT-mini
+```bash
+python train_demo.py --mode='segment' --task_str="seg_swfd_lv128,sc" --datasets_parent_dir="data/OADAT-mini" --logdir="trained_models/seg_swfd_lv128,sc" --gpu=-1
 ```
 3. (a) Run evaluation script to compute metrics using a pretrained for a given task on OADAT-mini.
-```python
-python eval_segmentation_demo.py --task_str="seg_swfd_lv128,sc" --datasets_parent_dir="data/OADAT-mini" --fname_out="trained_models/seg_swfd_lv128,sc/eval.p"
+```bash
+python eval_demo.py --mode='segment' --task_str="seg_swfd_lv128,sc" --datasets_parent_dir="data/OADAT-mini" --fname_out="trained_models/seg_swfd_lv128,sc/eval.p" --gpu=-1
 ```
 3. (b) Run evaluation script to compute metrics using a model trained on step 2. for a given task on OADAT-mini.
-```python
-python eval_segmentation_demo.py --task_str="seg_swfd_lv128,sc" --datasets_parent_dir="data/OADAT-mini" --fname_out="trained_models/seg_swfd_lv128,sc/eval.p" --path_serialized_model='path/to/serialized/model/from/step/2'
+```bash
+python eval_demo.py --mode='segment' --task_str="seg_swfd_lv128,sc" --datasets_parent_dir="data/OADAT-mini" --fname_out="trained_models/seg_swfd_lv128,sc/eval.p" --path_serialized_model='path/to/serialized/model/from/step/2' --gpu=-1
+```
+---
+The above can also be conducted for OADAT:  
+1. Download OADAT files from [here](https://doi.org/10.3929/ethz-b-000551512).
+```bash
+bash download-oadat-full.sh
+```
+2. Run a very short training of a segmentation model for a given task on OADAT
+```bash
+python train_demo.py --mode='segment' --task_str="seg_lv128,li" --datasets_parent_dir="data/OADAT" --logdir="trained_models/seg_lv128,li" --gpu=0
+```
+3. (a) Run evaluation script to compute metrics using a pretrained for a given task on OADAT.
+```bash
+python eval_demo.py --mode='segment' --task_str="seg_lv128,li" --datasets_parent_dir="data/OADAT" --fname_out="trained_models/seg_lv128,li/eval.p" --gpu=0
+```
+3. (b) Run evaluation script to compute metrics using a specific model on step 2 for a given task on OADAT. Here we use model that is saved under "trained_models/seg_lv128,li/serialized_model_step_12800"
+```bash
+python eval_demo.py --mode='segment' --task_str="seg_lv128,li" --datasets_parent_dir="data/OADAT" --fname_out="trained_models/seg_lv128,li/eval.p" --path_serialized_model='trained_models/seg_lv128,li/serialized_model_step_12800' --gpu=0
+```
+----
+
+Alternatively, train a translation model for a given task on OADAT after downloading the dataset.   
+
+2. Run a very short training of a translation model for a given task on OADAT
+```bash
+python train_demo.py --mode='translate' --task_str="swfd_lv128,li" --datasets_parent_dir="data/OADAT" --logdir="trained_models/swfd_lv128,li" --batch_size=25 --gpu=0
+```
+3. (a) Run evaluation script to compute metrics using a pretrained for a given task on OADAT.
+```bash
+python eval_demo.py --mode='translate' --task_str="swfd_lv128,li" --datasets_parent_dir="data/OADAT" --fname_out="trained_models/swfd_lv128,li/eval.p" --gpu=0
 ```
 ___
 ## Requirements
