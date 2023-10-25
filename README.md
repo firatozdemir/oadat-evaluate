@@ -196,7 +196,7 @@ ___
 ## Citation  
 
 Please cite to this work using the following Bibtex entry:
-```
+```tex
 @article{
 ozdemir2023oadat,
 title={{OADAT}: Experimental and Synthetic Clinical Optoacoustic Data for Standardized Image Processing},
